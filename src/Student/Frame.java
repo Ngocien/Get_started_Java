@@ -154,7 +154,7 @@ public class Frame implements ActionListener {
                 age.setText("");
             }
             students = HandleFile.read_csv("src/data/data.csv");
-//            create_table();
+            create_table();
             choice = get_all_ID(students);
 
         });
