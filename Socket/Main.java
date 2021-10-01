@@ -13,17 +13,10 @@ import java.util.List;
 
 public class Main extends Thread {
 
-//    public static List<Mess> content = new ArrayList<>();
 
     public static void main(String[] args) throws IOException {
-//        Server  server= new Server();
-//        server.start(6666);
-        LogIn client1 = new LogIn("127.0.0.1", "6666");
-        LogIn client2 =  new LogIn("127.0.0.2", "6666");
-//
-//        client1.setFrame();
-//        client2.setFrame();
-
+        new LogIn("127.0.0.1", "6666");
+        new LogIn("127.0.0.2", "6666");
     }
 }
 

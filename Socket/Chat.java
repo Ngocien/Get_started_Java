@@ -9,7 +9,7 @@ public class Chat
 {
     JFrame frame = Basic_Frame.setFrame();
     JTextArea textField = new JTextArea("");
-    String content ="";
+    List<String> content = new ArrayList<>();
     String name, ip, port ="";
 
 
@@ -45,11 +45,21 @@ public class Chat
         send.addActionListener(e->
         {
             String text = mess.getText();
+
+
 //            textField.append(name + ": " + text);
-            try {
-                client.sendMessage(text+"\n");
+            new Thread(()->
+            {
+                String t ="";
+                try {
+                client.sendMessage(name + ": " + text);
+                content = client.receiveMessage();
+                for (String i: content) {
+                    t += i;
+                    t += "\n";
+                }
+                textField.setText(t);
                 mess.setText("");
-                textField.setText(client.receiveMessage());
                 JScrollPane scroll = new JScrollPane(textField, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
                 scroll.setBounds(10, 11, 455, 249);
                 frame.getContentPane().add(scroll);
@@ -58,12 +68,11 @@ public class Chat
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
-//            Mess t = new Mess(name, text);
-//            content.add(t);
-//            Content_mess(content);
 
+            }).start();
         });
 
     }
+
 
 }

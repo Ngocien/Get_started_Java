@@ -10,7 +10,6 @@ class Basic_Frame extends JFrame{
         frame.setSize(500, 400);
         frame.getContentPane().setLayout(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        frame.setVisible(true);
         return frame;
     }
 

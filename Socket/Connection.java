@@ -5,12 +5,15 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Connection{
         private Socket clientSocket;
         private PrintWriter out;
         private BufferedReader in;
+        List<String> content= new ArrayList<>();
+
 
         public void startConnection(String ip, int port) throws IOException {
             clientSocket = new Socket(ip, port);
@@ -21,14 +24,27 @@ public class Connection{
         public void sendMessage(String msg) throws IOException {
             out.println(msg);
             System.out.println("Client send to server: " + msg);
-            in.readLine();
-            System.out.println("Client receive: " + in.readLine());
+//            in.readLine();
+//            System.out.println("Client receive: " + in.readLine());
         }
 
-        public String receiveMessage() throws IOException {
-            String temp = in.readLine();
-            System.out.println("Client receive: " + temp);
-            return in.readLine();
+        public List<String> receiveMessage() throws IOException {
+
+            new Thread(() -> {
+                String temp = "";
+                while (true) {
+                    try {
+                        temp = in.readLine();
+                        content.add(temp);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    System.out.println("Client" + clientSocket + " receive: " + temp);
+                }
+            }
+
+            ).start();
+            return content;
         }
 
         public void stopConnection() throws IOException {
